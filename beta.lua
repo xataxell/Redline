@@ -4645,7 +4645,7 @@ do
             s_Method:addOption('Fake'):setTooltip('Doesn\'t affect your network usage. Visualizer is more accurate than Fake, but still may have desync issues'):Select()
             s_Method:addOption('Real'):setTooltip('Limits your actual network usage. May lag more than just your movement. Visualizer is less accurate than Fake, but lag looks more realistic')
             
-            local s_LagAmnt = p_flag:addSlider('Amount', { min = 1, max = 10, step = 0.1, cur = 3 }):setTooltip('Lag amount. The larger the number, the more lag you have')
+            local s_LagAmnt = p_flag:addSlider('Amount', { min = 1, max = 30, step = 0.1, cur = 3 }):setTooltip('Lag amount. The larger the number, the more lag you have')
             local LagAmnt = s_LagAmnt:getValue()
             local Method = s_Method:GetSelection()
             
