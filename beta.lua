@@ -33,7 +33,7 @@ if ( not isfolder('REDLINE') ) then
 end
 
 
-local REDLINEVER = 'v0.7.2'
+local REDLINEVER = 'v0.7.3'
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
@@ -6167,6 +6167,7 @@ do
             local mode = m_speed:addDropdown('Mode',true)
             mode:addOption('Standard'):setTooltip('Standard CFrame speed. Also called TPWalk or TPSpeed'):Select()
             mode:addOption('Velocity'):setTooltip('Changes your velocity, doesn\'t use any bodymovers. Because of friction, Velocity essentially requires the speed setting to be extremely high (unless you jump / are in the air)')
+            mode:addOption('Mover'):setTooltip('Uses a bodymover.')
             mode:addOption('Bhop'):setTooltip('The exact same as Velocity, but it spam jumps. Useful for looking legit in games with bhop mechanics, like Arsenal')
             mode:addOption('Part'):setTooltip('Pushes you physically with a clientside part. Works well with the Notrip module enabled')
             mode:addOption('WalkSpeed'):setTooltip('It\'s highly recommended to not use this mode unless you know what you\'re doing')
@@ -6176,6 +6177,13 @@ do
             speedslider:Connect('Changed',function(v)speed=v;end)
             local part
             local scon
+            local finst
+            local function vec3Func(v) 
+                finst.Velocity = vec3(0, v, 0) 
+            end
+            local function directFunc(v) 
+                amnt = v 
+            end
                     
             m_speed:Connect('Enabled',function() 
                 local mode = mode:GetSelection()
@@ -6196,6 +6204,24 @@ do
                     scon = servRun.Heartbeat:Connect(function(dt) 
                         clientRoot.Velocity += clientHumanoid.MoveDirection * (5 * dt * speed)
                     end)
+                elseif (mode == 'Mover') then
+                    disablecons(clientRoot.ChildAdded, 'rp_child')
+                    disablecons(clientRoot.DescendantAdded, 'rp_desc')
+                    disablecons(clientChar.DescendantAdded, 'chr_desc')
+                    
+                    finst = instNew('BodyVelocity')
+                    finst.MaxForce = vec3(9e9, 0, 9e9)
+                    finst.Parent = clientRoot
+                
+                    scon = servRun.Heartbeat:Connect(function(dt)
+                        if clientHumanoid.MoveDirection.Magnitude > 0 then
+                            finst.Velocity = clientHumanoid.MoveDirection * (5 * dt * speed)
+                        else
+                            finst.Velocity = vec3(0, 0, 0)
+                        end
+                    end)
+                
+                    speedslider:Connect('Changed', vec3Func)                
                 elseif (mode == 'Bhop') then
                     scon = servRun.RenderStepped:Connect(function(dt) 
                         local md = clientHumanoid.MoveDirection
@@ -6234,6 +6260,13 @@ do
             m_speed:Connect('Disabled',function() 
                 if (scon) then scon:Disconnect() scon = nil end
                 if (part) then part:Destroy() end
+                if (finst) then finst:Destroy(); finst = nil end
+                
+                speedslider:Connect('Changed', directFunc)
+                
+                enablecons('rp_child')
+                enablecons('rp_desc')
+                enablecons('chr_desc')
                 
                 enablecons('hum_changed')
                 enablecons('hum_jump')
@@ -8377,7 +8410,7 @@ do
                 d.Parent = kmframe
                 
                 --[[local mb1 = w:Clone()
-                mb1.Text = 'Mouse1'
+                mb1.Text = 'MB1'
                 mb1.AnchorPoint = vec2(0, 1)
                 mb1.Position = dimScale(0, 2)
                 mb1.Parent = kmframe]]
@@ -8573,12 +8606,14 @@ do
             local jeffs = {} 
             
             local scale = u_jeff:addSlider('Animation scale', { min = 0, max = 3, step = 0.05, cur = 1 })
+            local amount = u_jeff:addSlider('Amount', { min = 1, max = 200, step = 1, cur = 25 })
             scale:setTooltip('The speed scale of the animation')
+            amount:setTooltip('The amount of Jeffs shown')
             
             u_jeff:Connect('Toggled', function(t) 
                 if t then
                     
-                    for i = 1, 25 do 
+                    for i = 1, amount:getValue() do 
                         local size = math.random(25, 250)
                         local position = Vector2.new(math.random(), math.random())
                         
@@ -8808,7 +8843,7 @@ do
                     themedata = nil
                                 
                     local worked = pcall(function()
-                        themedata = game:HttpGet('https://raw.githubusercontent.com/topitbopit/Redline/main/themes/'..o..'.json')
+                        themedata = game:HttpGet('https://raw.githubusercontent.com/xataxell/Redline/main/themes/'..o..'.json')
                     end)
                     
                     if ( not worked ) then
@@ -8823,11 +8858,11 @@ do
             s_apply:Connect('Clicked',function()
                 writefile('REDLINE/theme.json', themedata)
                 ui:Destroy()
-                loadstring(game:HttpGet('https://raw.githubusercontent.com/topitbopit/Redline/main/loader.lua'))()
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/xataxell/Redline/main/loader.lua'))()
             end)
             
             task.spawn(function()
-                local themes = game:HttpGet('https://raw.githubusercontent.com/topitbopit/Redline/main/themes/themelist.txt')
+                local themes = game:HttpGet('https://raw.githubusercontent.com/xataxell/Redline/main/themes/themelist.txt')
                 themes = themes:split(']')
                 for i = 1, #themes do
                     local a = themes[i] -- insane variable names 
@@ -9495,7 +9530,7 @@ else
 end
 
 if ( tpQueue and _G.RLQUEUED == false ) then
-    tpQueue[[if(readfile('REDLINE/Queued.txt') == 'true')then loadstring(game:HttpGet('https://raw.githubusercontent.com/topitbopit/Redline/main/loader.lua'))()end]]
+    tpQueue[[if(readfile('REDLINE/Queued.txt') == 'true')then loadstring(game:HttpGet('https://raw.githubusercontent.com/xataxell/Redline/main/loader.lua'))()end]]
     writefile('REDLINE/Queued.txt', 'true')
     _G.RLQUEUED = true
 end
