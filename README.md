@@ -9,7 +9,7 @@ Someone reported the Discord server and got it taken down. I'm working on settin
 
 ## Loadstring  
 ```lua
-loadstring(game:HttpGet('https://raw.githubusercontent.com/topitbopit/Redline/main/loader.lua'))()  
+loadstring(game:HttpGet('https://raw.githubusercontent.com/xataxell/Redline/refs/heads/main/loader.lua'))()  
 ```
 ## What is Redline?  
 Redline is a massive universal script based on many popular Minecraft hacked clients. It's customizable, easy to use, and packed with features.  
@@ -35,7 +35,8 @@ Make sure you pressed RightShift and there aren't any errors in console.
 If you need help, join the discord for support.  
 
 ## Supported executors  
-- *Probably* all of them  
+- Awp.gg
+- *probably* all popular paid executors
 
 ## Changelog  
 Current version: 0.7.2  
