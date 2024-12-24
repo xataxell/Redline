@@ -4645,7 +4645,7 @@ do
             s_Method:addOption('Fake'):setTooltip('Doesn\'t affect your network usage. Visualizer is more accurate than Fake, but still may have desync issues'):Select()
             s_Method:addOption('Real'):setTooltip('Limits your actual network usage. May lag more than just your movement. Visualizer is less accurate than Fake, but lag looks more realistic')
             
-            local s_LagAmnt = p_flag:addSlider('Amount', { min = 1, max = 30, step = 0.1, cur = 3 }):setTooltip('Lag amount. The larger the number, the more lag you have')
+            local s_LagAmnt = p_flag:addSlider('Amount', { min = 1, max = 66, step = 1, cur = 3 }):setTooltip('Lag amount. The larger the number, the more lag you have')
             local LagAmnt = s_LagAmnt:getValue()
             local Method = s_Method:GetSelection()
             
@@ -4685,7 +4685,7 @@ do
                     task.spawn(function() 
                         while true do 
                             if ( not p_flag:isEnabled() or Method ~= s ) then break end
-                            task.wait((math.random(20, 40) * 0.1) / LagAmnt)
+                            task.wait(LagAmnt / 66)
                             if ( not p_flag:isEnabled() or Method ~= s ) then break end
                             
                             do
@@ -4709,7 +4709,7 @@ do
                         local s = Method
                         while true do 
                             if ( not p_flag:isEnabled() or Method ~= s ) then break end
-                            task.wait(5 / LagAmnt)
+                            task.wait(LagAmnt / 66)
                             if ( not p_flag:isEnabled() or Method ~= s ) then break end
                             
                             
