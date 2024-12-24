@@ -4718,7 +4718,7 @@ do
                             
                             servNetwork:SetOutgoingKBPSLimit(1)
                             
-                            task.wait(math.random(1, LagAmnt) * 0.1)
+                            task.wait(LagAmnt / 66)
                             fakechar.Parent = nil
                             servNetwork:SetOutgoingKBPSLimit(9e9)
                         end 
