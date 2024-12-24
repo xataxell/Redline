@@ -4698,7 +4698,7 @@ do
                                 weld.Part1 = clientRoot
                             end
                             
-                            task.wait(math.random(1,LagAmnt) * 0.1)
+                            task.wait(LagAmnt / 66)
                             fakechar.Parent = nil
                             weld.Part1 = nil
                             seat.Anchored = true
