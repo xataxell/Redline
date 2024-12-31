@@ -39,7 +39,7 @@ If you need help, join the discord for support.
 - *probably* all popular paid executors
 
 ## Changelog  
-Current version: 0.7.2  
+Current version: 0.7.3  
 Dates will follow MM/DD/YYYY  
 
 Version 0.7.2 (4/2/2023) 
