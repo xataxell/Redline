@@ -35,7 +35,8 @@ Make sure you pressed RightShift and there aren't any errors in console.
 If you need help, join the discord for support.  
 
 ## Supported executors  
-- Awp.gg
+- Awp.gg [Paid]
+- Xeno [Free]
 - *probably* all popular paid executors
 
 ## Changelog  
