@@ -37,7 +37,8 @@ If you need help, join the discord for support.
 ## Supported executors  
 - Awp.gg [Paid]
 - Xeno [Free]
-- *probably* all popular paid executors
+- Swift [Free]
+- *probably* all popular paid and maybe free executors
 
 ## Changelog  
 Current version: 0.7.3  
